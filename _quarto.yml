@@ -9,6 +9,7 @@ website:
     type: info
     position: below-navbar  
   title: "UMGCC FCSS"
+  site-path: "/InstrumentQC/Historical/"
   navbar:
     logo: images/hex.svg
     left:
@@ -34,7 +35,7 @@ website:
       menu:
       - text: "Cytek Aurora 3L"
         href: Aurora3L.qmd
-    - text: "Year:"
+    - text: "Year"
       menu:
       - text: "2020"
         href: Year2020.qmd
