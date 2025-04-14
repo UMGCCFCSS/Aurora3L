@@ -1,5 +1,9 @@
 project:
   type: website
+  render:
+  - "*.qmd"
+  - "!Year2018.qmd"
+  - "!Year2019.qmd"
   output-dir: docs/
 website:
   google-analytics: 
