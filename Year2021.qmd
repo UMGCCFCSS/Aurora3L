@@ -27,6 +27,16 @@ TheList <- c("3L")
 Data <- read.csv(CSV, check.names=FALSE)
 Data$DateTime <- lubridate::ymd_hms(Data$DateTime)
 #tail(Data, 1)
+
+QC_Cutoffs <- data_path <-                                                
+    paste(                                                  
+      "https://raw.githubusercontent.com",                  
+      "UMGCCFCSS", "InstrumentQC",                   
+      "main", "data", "QC_3L.CSV",                              
+      sep = "/"                                             
+    )
+
+#QC_Cutoffs <- readLines(QC_Cutoffs)
 ```
 
 ```{r}
@@ -44,6 +54,9 @@ Maintenance <- Maintenance %>% filter(instrument %in% TheList)
 
 ```{r}
 The2021 <- Data |> dplyr::filter(year(DateTime) == 2021)
+
+The2021 <- HolisticToArchived(data=The2021, manufacturer="Cytek",
+ baselinecutoffs=QC_Cutoffs, gainmultiplier = 2)
 ```
 
 ## {.sidebar}
@@ -139,19 +152,19 @@ ScalingGains <- TheColumns[str_detect(TheColumns, "Scaling")]
 ScalingGains <- Luciernaga:::ColorPriority(ScalingGains)
 OtherGains <- c(ScatterGains)
 
-VioletPlotsRCV <- QC_Plots(x=x, FailedFlag=FALSE, MeasurementType=VioletGains,
+VioletPlotsRCV <- QC_Plots(x=x, FailedFlag=TRUE, MeasurementType=VioletGains,
                       plotType = "individual", returntype = "plots", YAxisLabel = "%rCV", 
                       RepairVisits=Maintenance)
 
-BluePlotsRCV <- QC_Plots(x=x, FailedFlag=FALSE, MeasurementType=BlueGains,
+BluePlotsRCV <- QC_Plots(x=x, FailedFlag=TRUE, MeasurementType=BlueGains,
                       plotType = "individual", returntype = "plots", YAxisLabel = "%rCV",
                       RepairVisits=Maintenance)
 
-RedPlotsRCV <- QC_Plots(x=x, FailedFlag=FALSE, MeasurementType=RedGains,
+RedPlotsRCV <- QC_Plots(x=x, FailedFlag=TRUE, MeasurementType=RedGains,
                      plotType = "individual", returntype = "plots", YAxisLabel = "%rCV",
                      RepairVisits=Maintenance)
 
-ScatterPlotsRCV <- QC_Plots(x=x, FailedFlag=FALSE, MeasurementType=ScatterGains,
+ScatterPlotsRCV <- QC_Plots(x=x, FailedFlag=TRUE, MeasurementType=ScatterGains,
                      plotType = "individual", returntype = "plots", YAxisLabel = " ",
                      RepairVisits=Maintenance)
 ```
@@ -179,19 +192,19 @@ ScalingGains <- TheColumns[str_detect(TheColumns, "Scaling")]
 ScalingGains <- Luciernaga:::ColorPriority(ScalingGains)
 OtherGains <- c(ScatterGains, LaserGains, ScalingGains)
 
-VioletPlotsGain <- QC_Plots(x=x, FailedFlag=FALSE, MeasurementType=VioletGains,
+VioletPlotsGain <- QC_Plots(x=x, FailedFlag=TRUE, MeasurementType=VioletGains,
                       plotType = "individual", returntype = "plots", YAxisLabel = "Gain",
                       RepairVisits=Maintenance)
 
-BluePlotsGain <- QC_Plots(x=x, FailedFlag=FALSE, MeasurementType=BlueGains,
+BluePlotsGain <- QC_Plots(x=x, FailedFlag=TRUE, MeasurementType=BlueGains,
                       plotType = "individual", returntype = "plots", YAxisLabel = "Gain",
                       RepairVisits=Maintenance)
 
-RedPlotsGain <- QC_Plots(x=x, FailedFlag=FALSE, MeasurementType=RedGains,
+RedPlotsGain <- QC_Plots(x=x, FailedFlag=TRUE, MeasurementType=RedGains,
                      plotType = "individual", returntype = "plots", YAxisLabel = "Gain",
                      RepairVisits=Maintenance)
 
-ScatterPlotsGain <- QC_Plots(x=x, FailedFlag=FALSE, MeasurementType=ScatterGains,
+ScatterPlotsGain <- QC_Plots(x=x, FailedFlag=TRUE, MeasurementType=ScatterGains,
                      plotType = "individual", returntype = "plots", YAxisLabel = " ",
                      RepairVisits=Maintenance)
 
